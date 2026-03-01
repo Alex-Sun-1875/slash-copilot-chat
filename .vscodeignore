@@ -1,0 +1,9 @@
+.vscode/**
+.vscode-test/**
+src/**
+!src/webview/chat-ui/dist/**
+node_modules/**
+.gitignore
+tsconfig.json
+*.map
+*.ts

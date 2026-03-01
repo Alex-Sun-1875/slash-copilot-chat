@@ -1,0 +1,263 @@
+{
+  "name": "slash-copilot-chat",
+  "displayName": "Slash",
+  "description": "AI-powered coding assistant with chat, code completion, and code actions",
+  "version": "0.0.1",
+  "publisher": "slash",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Machine Learning",
+    "Chat"
+  ],
+  "keywords": [
+    "ai",
+    "copilot",
+    "chat",
+    "code completion",
+    "assistant"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "slash-copilot",
+          "title": "Slash",
+          "icon": "$(comment-discussion)"
+        }
+      ]
+    },
+    "views": {
+      "slash-copilot": [
+        {
+          "type": "webview",
+          "id": "slash-copilot.chatView",
+          "name": "Chat"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "slash-copilot.openChat",
+        "title": "Open Chat",
+        "category": "Slash Copilot"
+      },
+      {
+        "command": "slash-copilot.newChat",
+        "title": "New Chat",
+        "category": "Slash Copilot"
+      },
+      {
+        "command": "slash-copilot.explainCode",
+        "title": "Explain Code",
+        "category": "Slash Copilot"
+      },
+      {
+        "command": "slash-copilot.optimizeCode",
+        "title": "Optimize Code",
+        "category": "Slash Copilot"
+      },
+      {
+        "command": "slash-copilot.addComments",
+        "title": "Add Comments",
+        "category": "Slash Copilot"
+      },
+      {
+        "command": "slash-copilot.generateTests",
+        "title": "Generate Tests",
+        "category": "Slash Copilot"
+      },
+      {
+        "command": "slash-copilot.fixCode",
+        "title": "Fix Code",
+        "category": "Slash Copilot"
+      },
+      {
+        "command": "slash-copilot.toggleCompletion",
+        "title": "Toggle Inline Completion",
+        "category": "Slash Copilot"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "slash-copilot.submenu",
+          "group": "slash-copilot"
+        }
+      ],
+      "slash-copilot.submenu": [
+        {
+          "command": "slash-copilot.explainCode",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "slash-copilot.optimizeCode",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "slash-copilot.addComments",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "slash-copilot.generateTests",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "slash-copilot.fixCode",
+          "when": "editorHasSelection"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "slash-copilot.submenu",
+        "label": "Slash Copilot"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "slash-copilot.openChat",
+        "key": "ctrl+shift+i",
+        "mac": "cmd+shift+i"
+      },
+      {
+        "command": "slash-copilot.explainCode",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "editorHasSelection"
+      }
+    ],
+    "configuration": {
+      "title": "Slash Copilot Chat",
+      "properties": {
+        "slash-copilot.provider": {
+          "type": "string",
+          "default": "openai",
+          "enum": [
+            "openai",
+            "azure",
+            "custom"
+          ],
+          "enumDescriptions": [
+            "OpenAI API",
+            "Azure OpenAI Service",
+            "Custom API (OpenAI-compatible)"
+          ],
+          "description": "Select the AI provider"
+        },
+        "slash-copilot.openai.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "OpenAI API Key"
+        },
+        "slash-copilot.openai.model": {
+          "type": "string",
+          "default": "gpt-4",
+          "enum": [
+            "gpt-4",
+            "gpt-4-turbo",
+            "gpt-4o",
+            "gpt-4o-mini",
+            "gpt-3.5-turbo"
+          ],
+          "description": "OpenAI model to use"
+        },
+        "slash-copilot.openai.baseUrl": {
+          "type": "string",
+          "default": "https://api.openai.com/v1",
+          "description": "OpenAI API base URL"
+        },
+        "slash-copilot.azure.endpoint": {
+          "type": "string",
+          "default": "",
+          "description": "Azure OpenAI endpoint URL"
+        },
+        "slash-copilot.azure.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Azure OpenAI API Key"
+        },
+        "slash-copilot.azure.deploymentName": {
+          "type": "string",
+          "default": "",
+          "description": "Azure OpenAI deployment name"
+        },
+        "slash-copilot.azure.apiVersion": {
+          "type": "string",
+          "default": "2024-02-15-preview",
+          "description": "Azure OpenAI API version"
+        },
+        "slash-copilot.custom.endpoint": {
+          "type": "string",
+          "default": "http://localhost:11434/v1",
+          "description": "Custom API endpoint (OpenAI-compatible)"
+        },
+        "slash-copilot.custom.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Custom API key (optional)"
+        },
+        "slash-copilot.custom.model": {
+          "type": "string",
+          "default": "llama2",
+          "description": "Custom model name"
+        },
+        "slash-copilot.completion.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable inline code completion"
+        },
+        "slash-copilot.completion.debounceMs": {
+          "type": "number",
+          "default": 300,
+          "minimum": 100,
+          "maximum": 2000,
+          "description": "Debounce delay for inline completion (ms)"
+        },
+        "slash-copilot.completion.maxTokens": {
+          "type": "number",
+          "default": 256,
+          "minimum": 64,
+          "maximum": 1024,
+          "description": "Maximum tokens for completion"
+        },
+        "slash-copilot.chat.systemPrompt": {
+          "type": "string",
+          "default": "You are a helpful coding assistant. Help the user with their programming questions and tasks. When providing code, be concise and explain your reasoning.",
+          "description": "System prompt for chat conversations"
+        },
+        "slash-copilot.chat.maxContextTokens": {
+          "type": "number",
+          "default": 4000,
+          "description": "Maximum tokens for context in chat"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "npm run build:extension",
+    "build:extension": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --minify",
+    "build:webview": "cd src/webview/chat-ui && npm run build",
+    "watch": "npm run watch:extension",
+    "watch:extension": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --watch",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "esbuild": "^0.19.8",
+    "eslint": "^8.54.0",
+    "typescript": "^5.3.2"
+  },
+  "dependencies": {}
+}

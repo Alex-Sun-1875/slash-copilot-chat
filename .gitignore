@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.vsix
+.vscode-test/
+src/webview/chat-ui/node_modules/
+src/webview/chat-ui/dist/
+.DS_Store
